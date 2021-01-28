@@ -1,0 +1,14 @@
+<h3>Список сессии</h3>
+
+<?php if ( ! $polls) : ?>
+	<p>список сессий пуст</p>
+<?php endif; ?>
+
+<table>
+	<?php foreach ($polls as $poll) : ?>
+		<tr>
+			<td><a href="./?page=edit&poll_id=<?= $poll->id ?>"><?= $poll->name ?></a></td>
+			<td><a href="./?page=delete&poll_id=<?= $poll->id ?>" class="remove" title="удалить...">✖</a>
+		</tr>
+	<?php endforeach; ?>
+</table>

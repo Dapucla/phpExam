@@ -1,0 +1,39 @@
+<h3>Результаты удалённой сессии <strong><?= $result->title ?></strong></h3>
+
+<?php $total_points = 0; ?>
+
+<input type="hidden" name="poll_id" value="<?= $result->poll_id ?>">
+<?php foreach ($quastions as $key => $quastion) : ?>
+	<p>
+		<span><?= $quastion->name ?></span>
+		<?php 
+			switch ($quastion->type)
+			{
+				case 5:
+					$points = $quastion->options[$result->results['answer'][$key]];
+					$total_points += $points;
+					?><strong><?= $result->results['answer'][$key] ?></strong><?php
+					?>&nbsp;(баллов: <strong><?= $points ?></strong>)<?php
+					break;
+					
+				case 6:
+					$points = 0;
+					foreach ($result->results['answer'][$key] as $answer)
+					{
+						$points += $quastion->options[$answer];
+					}
+					$total_points += $points;
+					?><strong><?= join(', ', $result->results['answer'][$key]) ?></strong><?php
+					?>&nbsp;(баллов: <strong><?= $points ?></strong>)<?php
+					break;
+				
+				default:
+					?><strong><?= $result->results['answer'][$key] ?></strong><?php
+
+			}
+		?>
+	</p>
+<?php endforeach; ?>
+
+<hr>
+<h4>Всего баллов: <strong><?= $total_points ?></strong></h4>

@@ -1,0 +1,31 @@
+<?php
+	$types = [
+		'',
+		'Число',
+		'Положительное число',
+		'Строка',
+		'Текст',
+		'Множественный выбор (radio)',
+		'Множественный выбор (чекбоксы)',
+	];
+?>
+<p>
+	<span>Название экспертной сессии:</span>
+	<b><?= $poll_name ?></b>
+	<hr>
+	<?php foreach($quastions as $quastion) : ?>
+		<?php 
+			$options = [];
+			foreach ($quastion->options as $key => $option)
+			{
+				if (empty($key)) continue;
+				$options[] = "$key -> $option";
+			}
+		?>
+		<p>
+			<span><?= $quastion->name ?></span>
+			<strong><?= $types[$quastion->type] ?></strong>
+			<?php if ( ! empty($options)) { ?>[ <?= print_r(join(' | ', $options), true) ?> ]<?php } ?>
+		</p>
+	<?php endforeach; ?>	
+</p>

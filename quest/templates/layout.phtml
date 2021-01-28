@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title><?= join(' - ', array_reverse($titles)) ?></title>
+	<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+	<h1>Опросы</h1>
+	<?php if (IS_LOGGED) : ?>
+		<ul class="menu">
+			<li><a href='./?page=main'>Список экспертных сессии</a></li>
+			<li><a href='./?page=add'>Добавить экспертную сессию</a></li>
+			<li><a href='./?page=logout'>Выход</a></li>
+		</ul>	
+	<?php endif; ?>
+	<hr>
+	
+	<?php if ( ! empty($_GET['error'])) : ?>
+		<p class="error"><?= $_GET['error'] ?>
+	<?php endif; ?>
+	
+	<?php if ( ! empty($_GET['alert'])) : ?>
+		<p class="alert"><?= $_GET['alert'] ?>
+	<?php endif; ?>
+	
+	<?php include $template_file ?>
+	
+	<hr>
+	<p>(c)2020 Опросы</p>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="assets/script.js"></script>	
+</body>
+</html>

@@ -1,0 +1,48 @@
+<h3>Прохождение опроса для <strong><?= $result->title ?></h3>
+
+<form method="POST">
+	<input type="hidden" name="poll_id" value="<?= $result->poll_id ?>">
+	<div class="answer_block">
+		<?php foreach ($quastions as $key => $quastion){ ?>
+		<p>
+			<span><?= $quastion->name ?></span>
+			<?php
+				switch (intval($quastion->type))
+				{
+					case 1:
+						?><input type="number" name="answer[<?= $key ?>]" required="required"><?php
+						break;
+						
+					case 2:
+						?><input type="number" name="answer[<?= $key ?>]" required="required" min="0"><?php
+						break;
+						
+					case 3:
+						?><input type="text" name="answer[<?= $key ?>]" required="required" maxlength="30"><?php
+						break;
+						
+					case 4:
+						?><textarea name="answer[<?= $key ?>]" required="required" maxlength="255"></textarea><?php
+						break;
+						
+					case 5:
+						foreach ($quastion->options as $name => $value)
+						{
+							?><?= $name ?><input type="radio" name="answer[<?= $key ?>]" value="<?= $name ?>" required="required"><?php
+						}
+						break;
+				
+					case 6:
+						foreach ($quastion->options as $name => $value)
+						{
+							?><?= $name ?><input type="checkbox" name="answer[<?= $key ?>][<?= $name ?>]" value="<?= $name ?>"><?php
+						}
+						break;
+				}
+			?>
+		</p>
+	<?php } ?>
+	</div>
+	<input type="submit" value="Отправить">
+</form>
+
