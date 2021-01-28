@@ -1,20 +1,34 @@
 <?php
-include 'engine/route.php';
-include 'engine/source.php';
 
-$route = new route(false);
+error_reporting(E_ALL);
+ini_set('display_errors', true);
 
-#libs::add_lib("rb", $route);
-libs::add_lib("bootstrap", $route);
-libs::add_lib("web_components", $route);
+require_once 'config.php';
+require_once 'includes/db.php';
+require_once 'includes/functions.php';
 
-switch ($route->parse_uri()) {
-	case '/':
-		controller::init_model("main", $route, "guest");
-		break;
-	default:
-		$route->err_code = 404;
-		controller::init_model("errors", $route, "public");
-		break;
+session_start();
+
+define('IS_LOGGED', ! empty($_SESSION['is_logged']));
+
+define('IS_POST', $_SERVER['REQUEST_METHOD'] == 'POST');
+
+$titles = [ 'Опросы' ];
+
+$db = new DB;
+
+$page = preg_replace('/[^a-z0-9_]/', '', get_var('page', 'index'));
+
+$action_file   = "actions/$page.php";
+$template_file = __DIR__ . "/templates/$page.phtml";
+
+if ( ! file_exists($action_file) && ! file_exists($template_file))
+{
+	error(404);
 }
-?>
+
+if (file_exists($action_file)) require_once $action_file;
+
+if (file_exists($template_file)) include_once 'templates/layout.phtml';
+
+	
